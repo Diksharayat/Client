@@ -2,8 +2,9 @@ import {BrowserRouter,Routes,Route} from "react-router-dom"
 import Login from "./component/Forms/Login";
 import HomePage from "./component/HomePage/HomePage";
 import Register from "./component/Forms/Register";
-import Navbar from "./component/Navbar/Navbar";
 import AddTransaction from "./component/Forms/AddTransaction";
+import Navbar from "./component/Navbar/Navbar";
+import AccountDashboard from "./component/Dashboard/AccountDashboard";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
     <Route path="/homepage" element={<HomePage/>}/>
     <Route path="/register" element={<Register/>}/>
     <Route path="/add-transaction" element={<AddTransaction/>}/>
+    <Route path="/dashboard" element={<AccountDashboard/>}/>
       </Routes> 
     
     </BrowserRouter>
