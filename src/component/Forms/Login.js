@@ -174,7 +174,7 @@ const Login = () => {
                   name="email"
                   className="appearance-none block w-full p-3 leading-5 text-coolGray-900 border border-coolGray-200 rounded-lgshadow-md placeholder-coolGray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
                   type="email"
-                  placeholder="i-novotek@gmail.com"
+                  placeholder="diksha@gmail.com"
                 />
               </div>
               <div className="mb-4">

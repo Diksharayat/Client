@@ -2,7 +2,12 @@
 import {createContext,useReducer} from "react";
 
 import axios from "axios";
-import { LOGIN_SUCCESS,LOGIN_FAILED } from "./authActionTypes";
+import { LOGIN_SUCCESS,LOGIN_FAILED,FETCH_PROFILE_FAIL,FETCH_PROFILE_SUCCESS, LOGOUT } from "./authActionTypes";
+import { API_URL_USER } from "../../utils/api_URL";
+
+
+
+
 
 
 // auth context
@@ -49,6 +54,36 @@ const INITIAL_STATE={
         loading: false,
         userAuth: null,
       };
+
+      //profile
+      case FETCH_PROFILE_SUCCESS:
+        return{
+          ...state,
+          loading:false,
+          error:null,
+          profile:payload,
+
+        };
+
+        case FETCH_PROFILE_FAIL:
+        return{
+          ...state,
+          loading:false,
+          error:payload,
+          profile:null,
+
+        };
+        //logout
+        case LOGOUT:
+          //remove user from local storage
+         localStorage.removeItem('userAuth')
+        return{
+          ...state,
+          loading:false,
+          error:null,
+         userAuth:null
+
+        };
       default:
         return state;
   }
@@ -66,7 +101,7 @@ const AuthContextProvider=({children})=>{
 //here we also destructure the usereducer.
 //to send data from backend to frontend we use useReducer. we are going to write our business logic inside the useReducer function so we make function and call inside our useReducer.
 const [state,dispatch]= useReducer(reducer,INITIAL_STATE);
-console.log(state?.userAuth?.token);
+console.log(state);
 // here state represent the entire state in out initial state.
 // next is the dispatch function which means we are going to update the initial state.
 //your can name these two by your choice anything you want.
@@ -88,7 +123,11 @@ const loginUserAction=async(formData)=>{
   //we will user axios. we make request to backend  
   //here it take three arguments url link,payload, 
   // header:it gives more details about the request and we can also send some payload for ex:- token 
-  const res=await axios.post('http://localhost:3001/api/v1/users/login',formData,config);
+  const res=await axios.post( 
+      `${API_URL_USER}/login`,
+    formData,
+    config
+    );
   if (res?.data?.status ==='success') {
     dispatch({
       type: LOGIN_SUCCESS,
@@ -97,6 +136,9 @@ const loginUserAction=async(formData)=>{
   }
   // console.log(res);
 
+
+  //Redirect
+  window.location.href="/dashboard";
 } catch (error) {
   dispatch({
     type:LOGIN_FAILED,
@@ -107,23 +149,42 @@ const loginUserAction=async(formData)=>{
 };
 
 //profile action
-const fetchProfileAction=async ()=>{
-const config={
-  headers:{
-    //this tels we are sending a data which is of type json 
-   "Content-Type": "application/json",
-   "Authorization":`Bearer ${state?.userAuth?.token}`
-  },
-}; 
- 
+const fetchProfileAction = async () => {
   try {
-    
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${state?.userAuth?.token}`,
+      },
+    };
+    const res = await axios.get(`${API_URL_USER}/profile`, config);
+    console.log(res);
+    if (res?.data) {
+      dispatch({
+        type: FETCH_PROFILE_SUCCESS,
+        payload: res.data,
+      });
+    }
   } catch (error) {
-    
+    dispatch({
+      type: FETCH_PROFILE_FAIL,
+      payload: error?.response?.data?.message,
+    });
   }
-}
+};
 
+//
+//Logout
+const logoutUserAction = () => {
+  dispatch({
+    type: LOGOUT,
+    payload: null,
+  });
+  //Redirect
+  window.location.href = "/login";
+};
 
+  
 
 return (
   // it is going to provide data to other component
@@ -132,6 +193,11 @@ return (
     // isLogin:false,
     loginUserAction,
     userAuth: state,
+    fetchProfileAction,
+    profile:state?.profile,
+    error: state?.error,
+    logoutUserAction,
+
   }}>
     {children}
   </authContext.Provider>
