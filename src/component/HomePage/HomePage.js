@@ -1,10 +1,11 @@
 import React from "react";
 import Header from "../Header/Header";
 
-const HomePage = () => {
+const HomePage = ({book}) => {
   return (
     <>
       <Header />
+    
       <section className="py-24 bg-white overflow-hidden">
         <div className="container px-4 mx-auto">
           <div className="md:max-w-4xl mb-16 md:mb-20">

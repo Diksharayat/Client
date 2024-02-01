@@ -1,17 +1,18 @@
-import { useContext, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import { PlusIcon } from "@heroicons/react/20/solid";
-// import { accountContext } from "../context/AccountContext/AccountContext";
 
 import AllTransactions from "./AllTransactions";
 import { accountContext } from "../../context/AccountContext/AccountContext";
+import { useContext, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { PlusIcon } from "@heroicons/react/20/solid";
+
+
 
 export default function AccountDetails() {
   const { getAccountDetailsAction, account } = useContext(accountContext);
   const { accountID } = useParams();
   useEffect(() => {
     getAccountDetailsAction(accountID);
-  }, [accountID]);
+  }, [accountID,getAccountDetailsAction]);
   console.log(account);
   //Calculate total income
   const totalIncome = account?.transactions?.reduce((acc, transaction) => {
@@ -56,6 +57,7 @@ export default function AccountDetails() {
               <div className="mx-auto max-w-4xl text-center">
                 <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                   {account?.name}
+                  mom's building
                 </h2>
                 <p className="mt-3 text-xl text-gray-500 sm:mt-4">
                   Lorem ipsum dolor, sit amet consectetur adipisicing elit.

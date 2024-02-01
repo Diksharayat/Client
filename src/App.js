@@ -7,7 +7,9 @@ import Navbar from "./component/Navbar/Navbar";
 import AccountDashboard from "./component/Dashboard/AccountDashboard";
 import AccountDetails from "./component/Dashboard/AccountDetails";
 
+
 function App() {
+  
   return (
     <BrowserRouter>
     <Navbar/>

@@ -1,13 +1,13 @@
 import { createContext, useReducer } from "react";
 import axios from "axios";
-
+import { API_URL_ACC } from "../../utils/api_URL";
 import {
   ACCOUNT_DETAILS_SUCCESS,
   ACCOUNT_DETAILS_FAIL,
   ACCOUNT_CREATION_SUCCESS,
   ACCOUNT_CREATION_FAIL,
 } from "./accountActionTypes";
-import { API_URL_ACC } from "../../utils/api_URL";
+
 
 export const accountContext = createContext();
 //Initial State
@@ -43,14 +43,14 @@ const accountReducer = (state, action) => {
     case ACCOUNT_CREATION_SUCCESS:
       return {
         ...state,
-        account: payload,
+        action: payload,
         loading: false,
         error: null,
       };
     case ACCOUNT_CREATION_FAIL:
       return {
         ...state,
-        account: null,
+        action: null,
         loading: false,
         error: payload,
       };
@@ -78,7 +78,7 @@ export const AccountContextProvider = ({ children }) => {
         //dispatch
         dispatch({
           type: ACCOUNT_DETAILS_SUCCESS,
-          payload: res?.data?.data,
+          payload: res?.data,
         });
       }
     } catch (error) {
@@ -89,6 +89,7 @@ export const AccountContextProvider = ({ children }) => {
     }
   };
 
+  //Get account Details action
   const createAccountAction = async formData => {
     console.log(state?.userAuth);
     const config = {
