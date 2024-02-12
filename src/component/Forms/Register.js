@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { authContext } from "../../context/AuthContext/AuthContext";
 const Register = () => {
+
+  const {registerUserAction,error}= useContext(authContext)
   //form data
   const [formData, setFormData] = useState({
     fullname: "",
@@ -21,8 +24,9 @@ const Register = () => {
     if (!email || !password || !fullname) {
       return alert("Please provide all details");
     }
+    registerUserAction(formData)
   };
-
+  console.log(formData);
   return (
     <>
       <section className="py-24 md:py-32 bg-white">
@@ -37,7 +41,7 @@ const Register = () => {
               <div className="mb-6">
                 <label
                   className="block mb-2 text-coolGray-800 font-medium"
-                  htmlFor
+                 
                 >
                   Email
                 </label>
@@ -69,7 +73,7 @@ const Register = () => {
               <div className="mb-4">
                 <label
                   className="block mb-2 text-coolGray-800 font-medium"
-                  htmlFor
+                
                 >
                   Password
                 </label>

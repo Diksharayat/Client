@@ -1,7 +1,7 @@
 //auth Action Types
 // register
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
-export const REGISTRATION_STARTED = "REGISTRATION_STARTED";
+
 export const REGISTER_FAIL = "REGISTER_FAIL";
 // login
 export const LOGIN_STARTED = "LOGIN_STARTED";

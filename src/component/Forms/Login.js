@@ -164,7 +164,7 @@ const Login = () => {
               <div className="mb-6">
                 <label
                   className="block mb-2 text-coolGray-800 font-medium"
-                  htmlFor
+               
                 >
                   Email
                 </label>
@@ -180,7 +180,7 @@ const Login = () => {
               <div className="mb-4">
                 <label
                   className="block mb-2 text-coolGray-800 font-medium"
-                  htmlFor
+                
                 >
                   Password
                 </label>

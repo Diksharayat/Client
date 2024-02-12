@@ -2,7 +2,7 @@
 import {createContext,useReducer} from "react";
 
 import axios from "axios";
-import { LOGIN_SUCCESS,LOGIN_FAILED,FETCH_PROFILE_FAIL,FETCH_PROFILE_SUCCESS, LOGOUT } from "./authActionTypes";
+import { REGISTER_SUCCESS,REGISTER_FAIL, LOGIN_SUCCESS,LOGIN_FAILED,FETCH_PROFILE_FAIL,FETCH_PROFILE_SUCCESS, LOGOUT } from "./authActionTypes";
 import { API_URL_USER } from "../../utils/api_URL";
 
 
@@ -38,6 +38,24 @@ const INITIAL_STATE={
     const {type, payload}=action;
   // we are going to check the action type which is coming in  into this reducer 
   switch (type) {
+
+    //register
+    case REGISTER_SUCCESS:
+      //Add user to localstorage
+     
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        userAuth: payload,
+      };
+    case REGISTER_FAIL:
+      return {
+        ...state,
+        error: payload,
+        loading: false,
+        userAuth: null,
+      };
     case LOGIN_SUCCESS:
       //Add user to localstorage
       localStorage.setItem("userAuth", JSON.stringify(payload));
@@ -148,6 +166,51 @@ const loginUserAction=async(formData)=>{
 }
 };
 
+
+
+//register action
+// since we need to talk to the database or server we use async 
+const registerUserAction=async(formData)=>{
+  const config={
+    headers:{
+      //this tels we are sending a data which is of type json 
+     "Content-Type": "application/json",
+    },
+  };
+
+  try {
+  
+  // here to get date we can use fetch or Axios
+  //we will user axios. we make request to backend  
+  //here it take three arguments url link,payload, 
+  // header:it gives more details about the request and we can also send some payload for ex:- token 
+  const res=await axios.post( 
+      `http://localhost:3001/api/v1/users/register`,
+    formData,
+    config
+    );
+  if (res?.data?.status ==='success') {
+    dispatch({
+      type: REGISTER_SUCCESS,
+      payload:res.data
+    });
+  }
+  console.log(res);
+
+alert(" user Registered");
+window.location.href="/login";
+  //Redirect
+  // window.location.href="/dashboard";
+} catch (error) {
+  dispatch({
+    type:REGISTER_FAIL,
+    payload:error?.responce?.data?.message,
+  })
+  console.log(error);
+}
+};
+
+
 //profile action
 const fetchProfileAction = async () => {
   try {
@@ -192,6 +255,7 @@ return (
   <authContext.Provider value={{
     // isLogin:false,
     loginUserAction,
+    registerUserAction,
     userAuth: state,
     fetchProfileAction,
     profile:state?.profile,
