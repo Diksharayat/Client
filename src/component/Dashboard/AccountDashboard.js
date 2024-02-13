@@ -12,6 +12,7 @@ const { fetchProfileAction,profile,error }=useContext(authContext);
 //dispatch action
 
 useEffect(()=>{
+  
   fetchProfileAction();
   },[])
  

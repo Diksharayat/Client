@@ -16,7 +16,7 @@ function App() {
     <Routes>
       {/* path is called prop which is same as attribute. */}
     <Route path="/login" element={<Login/>}/>
-    <Route path="/homepage" element={<HomePage/>}/>
+    <Route path="/" element={<HomePage/>}/>
     <Route path="/register" element={<Register/>}/>
     <Route path="/add-transaction" element={<AddTransaction/>}/>
     <Route path="/dashboard" element={<AccountDashboard/>}/>

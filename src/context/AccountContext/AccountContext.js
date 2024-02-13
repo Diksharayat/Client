@@ -1,11 +1,12 @@
 import { createContext, useReducer } from "react";
 import axios from "axios";
-import { API_URL_ACC } from "../../utils/api_URL";
+
 import {
   ACCOUNT_DETAILS_SUCCESS,
   ACCOUNT_DETAILS_FAIL,
   ACCOUNT_CREATION_SUCCESS,
   ACCOUNT_CREATION_FAIL,
+ 
 } from "./accountActionTypes";
 
 
@@ -43,14 +44,14 @@ const accountReducer = (state, action) => {
     case ACCOUNT_CREATION_SUCCESS:
       return {
         ...state,
-        action: payload,
+        account: payload,
         loading: false,
         error: null,
       };
     case ACCOUNT_CREATION_FAIL:
       return {
         ...state,
-        action: null,
+        account: null,
         loading: false,
         error: payload,
       };
@@ -72,13 +73,13 @@ export const AccountContextProvider = ({ children }) => {
       },
     };
     try {
-      const res = await axios.get(`${API_URL_ACC}/${id}`, config);
+      const res = await axios.get(`http://localhost:3001/api/v1/accounts/${id}`, config);
 
       if (res?.data?.status === "success") {
         //dispatch
         dispatch({
           type: ACCOUNT_DETAILS_SUCCESS,
-          payload: res?.data,
+          payload: res?.data?.data,
         });
       }
     } catch (error) {
@@ -99,7 +100,7 @@ export const AccountContextProvider = ({ children }) => {
       },
     };
     try {
-      const res = await axios.post(`${API_URL_ACC}`, formData, config);
+      const res = await axios.post(`http://localhost:3001/api/v1/accounts`, formData, config);
       if (res?.data?.status === "success") {
         //dispatch
         dispatch({
@@ -115,6 +116,8 @@ export const AccountContextProvider = ({ children }) => {
       });
     }
   };
+
+
   return (
     <accountContext.Provider
       value={{

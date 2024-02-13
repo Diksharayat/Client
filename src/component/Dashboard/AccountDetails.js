@@ -1,10 +1,9 @@
-
-import AllTransactions from "./AllTransactions";
-import { accountContext } from "../../context/AccountContext/AccountContext";
 import { useContext, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { PlusIcon } from "@heroicons/react/20/solid";
 
+import AllTransactions from "./AllTransactions";
+import { accountContext } from "../../context/AccountContext/AccountContext";
 
 
 export default function AccountDetails() {
@@ -14,23 +13,23 @@ export default function AccountDetails() {
     getAccountDetailsAction(accountID);
   }, [accountID,getAccountDetailsAction]);
   console.log(account);
-  //Calculate total income
-  const totalIncome = account?.transactions?.reduce((acc, transaction) => {
-    if (transaction?.transactionType === "Income") {
-      return acc + transaction?.amount;
-    } else {
-      return acc;
-    }
-  }, 0);
+  // //Calculate total income
+  // const totalIncome = account?.transactions?.reduce((acc, transaction) => {
+  //   if (transaction?.transactionType === "Income") {
+  //     return acc + transaction?.amount;
+  //   } else {
+  //     return acc;
+  //   }
+  // }, 0);
 
-  //Calculate total Expenses
-  const totalExpenses = account?.transactions?.reduce((acc, transaction) => {
-    if (transaction?.transactionType === "Expenses") {
-      return acc + transaction?.amount;
-    } else {
-      return acc;
-    }
-  }, 0);
+  // //Calculate total Expenses
+  // const totalExpenses = account?.transactions?.reduce((acc, transaction) => {
+  //   if (transaction?.transactionType === "Expenses") {
+  //     return acc + transaction?.amount;
+  //   } else {
+  //     return acc;
+  //   }
+  // }, 0);
 
   return (
     <>
@@ -56,8 +55,8 @@ export default function AccountDetails() {
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="mx-auto max-w-4xl text-center">
                 <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                  Building
                   {account?.name}
-                  mom's building
                 </h2>
                 <p className="mt-3 text-xl text-gray-500 sm:mt-4">
                   Lorem ipsum dolor, sit amet consectetur adipisicing elit.
@@ -76,10 +75,7 @@ export default function AccountDetails() {
                           Total Balance
                         </dt>
                         <dd className=" text-5xl font-bold tracking-tight text-indigo-600">
-                          ${" "}
-                          {totalIncome +
-                            account?.initialBalance -
-                            totalExpenses}
+                          $4000
                         </dd>
                       </div>
                       <div className="flex flex-col border-t border-b border-gray-100 p-6 text-center sm:border-0 sm:border-l sm:border-r">
@@ -87,7 +83,7 @@ export default function AccountDetails() {
                           Total Expenses
                         </dt>
                         <dd className=" text-5xl font-bold tracking-tight text-red-600">
-                          $ {totalExpenses}
+                          $ 3000
                         </dd>
                         <Link
                           to={`/expenses-list/${3}`}
@@ -101,7 +97,7 @@ export default function AccountDetails() {
                           Total Income
                         </dt>
                         <dd className=" text-5xl font-bold tracking-tight text-green-600">
-                          ${totalIncome + account?.initialBalance}
+                          $900
                         </dd>
                         <Link
                           to={`/income-list/`}
@@ -117,8 +113,8 @@ export default function AccountDetails() {
             </div>
           </div>
           <AllTransactions
-            transactions={account?.transactions}
-            accountID={accountID}
+            // transactions={account?.transactions}
+            // accountID={accountID}
           />
         </>
       )}
